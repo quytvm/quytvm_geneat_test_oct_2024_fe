@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
 import {useEffect, useState} from "react";
-import {activeProduct, fetchAllProducts, fetchSearchProducts} from "../services/ProductService";
+import {activeProduct, deleteMultiProducts, fetchAllProducts, fetchSearchProducts} from "../services/ProductService";
 import './TableProduct.scss';
 import ModalAddProduct from "./ModalAddProduct";
 import Button from "react-bootstrap/Button";
@@ -22,8 +22,10 @@ const TableProduct = () => {
     const [productDelete,setProductDelete] = useState({});
 
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState("");
-    const [search, setSearch] = useState("PC");
+    const [pageSize, setPageSize] = useState(10);
+    const [search, setSearch] = useState("");
+
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
 
     const handleCloseAdd = () => setShowAddProduct(false);
@@ -59,6 +61,7 @@ const TableProduct = () => {
                 }
             }
         };
+        setPage(1);
         getProductSearch();
 
         return () => {
@@ -91,7 +94,6 @@ const TableProduct = () => {
 
     const handleActivateProduct = async (productId) => {
         let res = await activeProduct(productId)
-        console.log(res);
         if(res.status === 200){
             toast.success("Update status active product success!");
             getProduct(page, pageSize, search);
@@ -100,7 +102,28 @@ const TableProduct = () => {
         }
     }
 
-    console.log(products);
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        if (event.target.checked) {
+            setSelectedProducts((prev) => [...selectedProducts, value]);
+        } else {
+            setSelectedProducts((selectedProducts) => selectedProducts.filter((v) => v !== value));
+        }
+    };
+
+    const handleDeleteProductSelected = async () => {
+        let ids = selectedProducts.map(id => Number(id));
+        let res = await deleteMultiProducts(ids)
+        if(res.status === 200){
+            setSelectedProducts([]);
+            getProduct(page, pageSize, search);
+            toast.success("Delete products success!");
+        } else {
+            toast.error("Delete products fail!")
+        }
+    }
+
+    console.log(selectedProducts);
     return (
         <>
             <div className='my-3 add-new d-sm-flex'>
@@ -112,6 +135,14 @@ const TableProduct = () => {
                 </div>
             </div>
             <div className='col-12 col-sm-5 my-3 d-sm-flex'>
+                <Button
+                    variant="danger"
+                    style={{marginRight: '10px'}}
+                    disabled={selectedProducts.length > 0 ? false : true}
+                    onClick={handleDeleteProductSelected}
+                >
+                    <i data-fa-symbol="delete" className="fa-solid fa-trash fa-fw"></i>
+                </Button>
                 <Form.Control
                     type="number"
                     value={pageSize}
@@ -149,6 +180,8 @@ const TableProduct = () => {
                                         <Form.Check
                                             type="checkbox"
                                             id="custom-switch"
+                                            value={product.productId}
+                                            onChange={handleCheckboxChange}
                                         />
                                     </td>
                                     <td>{product.productCode}</td>
@@ -204,6 +237,7 @@ const TableProduct = () => {
                 breakLinkClassName='page-link'
                 containerClassName='pagination'
                 activeClassName='active'
+                forcePage={page - 1}
             />
 
             <ModalAddProduct

@@ -33,11 +33,20 @@ const deleteProduct = (productId) => {
 const activeProduct = (productId) => {
     return axios.patch(`/api/product/${productId}/activate`);
 }
+
+const deleteMultiProducts = (productIds ) => {
+    return axios.delete(`/api/product/deletemultiple`, {
+            data: productIds
+        }
+    );
+}
+
 export {
     fetchAllProducts,
     postCreateProduct,
     putEditProduct,
     deleteProduct,
     activeProduct,
-    fetchSearchProducts
+    fetchSearchProducts,
+    deleteMultiProducts
 }
