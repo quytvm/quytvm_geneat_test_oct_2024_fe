@@ -1,6 +1,6 @@
 import { Modal,Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import {deleteProduct} from "../services/ProductService";
+import {deleteProduct} from "../../services/ProductService";
 
 const ModalConfirm = (props) => {
     const {show, onHide, product,getProduct} = props

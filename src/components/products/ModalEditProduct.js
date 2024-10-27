@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import {useEffect, useState} from "react";
-import {putEditProduct} from "../services/ProductService";
+import {putEditProduct} from "../../services/ProductService";
 import { toast } from 'react-toastify';
 
 const ModalEditProduct = (props) => {
