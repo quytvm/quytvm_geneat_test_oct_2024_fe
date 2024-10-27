@@ -6,7 +6,7 @@ import {putEditProduct} from "../services/ProductService";
 import { toast } from 'react-toastify';
 
 const ModalEditProduct = (props) => {
-    const { show, onHide, getProduct, product } = props;
+    const { show, onHide, getProduct, product, pageSize,page,search } = props;
     const [name, setName] = useState('');
     const [unit, setUnit] = useState('');
     const [purchasePrice, setPurchasePrice] = useState(0);
@@ -46,7 +46,7 @@ const ModalEditProduct = (props) => {
             setSalePrice(0);
             setTaxRate(0);
             setStatus(0);
-            getProduct(1);
+            getProduct(page,pageSize,search);
             toast.success(res.data);
 
         } else {

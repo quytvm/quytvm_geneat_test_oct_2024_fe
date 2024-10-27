@@ -22,8 +22,8 @@ const TableProduct = () => {
     const [productDelete,setProductDelete] = useState({});
 
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [search, setSearch] = useState('');
+    const [pageSize, setPageSize] = useState("");
+    const [search, setSearch] = useState("PC");
 
 
     const handleCloseAdd = () => setShowAddProduct(false);
@@ -37,7 +37,7 @@ const TableProduct = () => {
 
 
     useEffect(() => {
-        getProduct(1,pageSize,search);
+        getProduct(page,pageSize,search);
     }, []);
 
     useEffect(() => {
@@ -59,15 +59,12 @@ const TableProduct = () => {
                 }
             }
         };
-
-        if (search) {
-            getProductSearch();
-        }
+        getProductSearch();
 
         return () => {
             controller.abort();
         };
-    },[pageSize,search,page]);
+    },[pageSize,search]);
 
     const getProduct = async (page, pageSize = 2, search = "") => {
         let res = await fetchAllProducts(page, pageSize, search);
@@ -96,8 +93,8 @@ const TableProduct = () => {
         let res = await activeProduct(productId)
         console.log(res);
         if(res.status === 200){
-            getProduct(1);
             toast.success("Update status active product success!");
+            getProduct(page, pageSize, search);
         } else {
             toast.error("Activated fail!")
         }
@@ -119,8 +116,8 @@ const TableProduct = () => {
                     type="number"
                     value={pageSize}
                     min="1"
-                    onChange={(event)=>{setPageSize((event.target.value))}}
-                    style={{ width: '70px',height: '50px',marginRight: '10px' }}
+                    onChange={(event) => setPageSize(event.target.value)}
+                    style={{ width: '70px', height: '50px', marginRight: '10px' }}
                 />
                 <input className='form-control'
                        value={search}
@@ -132,6 +129,7 @@ const TableProduct = () => {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Code</th>
                             <th>Product Name</th>
                             <th>Unit</th>
@@ -147,6 +145,12 @@ const TableProduct = () => {
                         products.items.map((product, index) => {
                             return (
                                 <tr key={product.productId}>
+                                    <td>
+                                        <Form.Check
+                                            type="checkbox"
+                                            id="custom-switch"
+                                        />
+                                    </td>
                                     <td>{product.productCode}</td>
                                     <td>{product.productName}</td>
                                     <td>{product.unit}</td>
@@ -203,6 +207,9 @@ const TableProduct = () => {
             />
 
             <ModalAddProduct
+                page={page}
+                pageSize={pageSize}
+                search={search}
                 show={showAddProduct}
                 onHide={handleCloseAdd}
                 onShow={handleShowAdd}
@@ -210,6 +217,9 @@ const TableProduct = () => {
             />
 
             <ModalEditProduct
+                page={page}
+                pageSize={pageSize}
+                search={search}
                 product={productEdit}
                 show={showEditProduct}
                 onHide={handleCloseEdit}
