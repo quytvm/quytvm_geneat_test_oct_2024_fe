@@ -1,8 +1,8 @@
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
 import {useEffect, useState} from "react";
-import {activeProduct, deleteMultiProducts, fetchAllProducts, fetchSearchProducts} from "../services/ProductService";
-import './TableProduct.scss';
+import {activeProduct, deleteMultiProducts, fetchAllProducts, fetchSearchProducts} from "../../services/ProductService";
+import '../Style.scss';
 import ModalAddProduct from "./ModalAddProduct";
 import Button from "react-bootstrap/Button";
 import ModalEditProduct from "./ModalEditProduct";

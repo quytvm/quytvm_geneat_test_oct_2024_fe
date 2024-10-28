@@ -1,9 +1,11 @@
 import './App.scss';
 import Header from "./components/Header";
-import TableProduct from "./components/TableProduct";
+import TableProduct from "./components/products/TableProduct";
 import Container from "react-bootstrap/Container";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Routes, Route} from "react-router-dom";
+import TableOrders from "./components/orders/TableOrders";
 
 function App() {
   return (
@@ -11,7 +13,10 @@ function App() {
           <div className="app-container">
               <Header/>
               <Container>
-                  <TableProduct/>
+                  <Routes>
+                      <Route path="/products" element={<TableProduct/>}/>
+                      <Route path="orders" element={<TableOrders/>}/>
+                  </Routes>
               </Container>
           </div>
           <ToastContainer
