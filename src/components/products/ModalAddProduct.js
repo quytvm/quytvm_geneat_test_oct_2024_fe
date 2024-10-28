@@ -6,7 +6,7 @@ import { postCreateProduct} from "../../services/ProductService";
 import { toast } from 'react-toastify';
 
 const ModalAddProduct = (props) => {
-    const { show, onHide, getProduct, pageSize,search,page } = props;
+    const { show, onHide, getProduct, pageSize,search } = props;
     const [name, setName] = useState('');
     const [unit, setUnit] = useState('');
     const [purchasePrice, setPurchasePrice] = useState(0);
@@ -26,18 +26,16 @@ const ModalAddProduct = (props) => {
         }
 
         let res = await postCreateProduct(product);
-        console.log(res);
-        if(res.productId){
+        if(res.data.productId){
             onHide();
             setName('');
             setUnit('');
             setPurchasePrice(0);
             setSalePrice(0);
             setTaxRate(0);
-            setStatus(0);
+            setStatus(true);
             getProduct(1,pageSize,search);
             toast.success("A product is created successfully!")
-
         } else {
             toast.error("A product is created fail!")
         }

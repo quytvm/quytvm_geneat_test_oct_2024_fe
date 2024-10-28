@@ -123,7 +123,6 @@ const TableProduct = () => {
         }
     }
 
-    console.log(selectedProducts);
     return (
         <>
             <div className='my-3 add-new d-sm-flex'>
@@ -241,7 +240,6 @@ const TableProduct = () => {
             />
 
             <ModalAddProduct
-                page={page}
                 pageSize={pageSize}
                 search={search}
                 show={showAddProduct}

@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Routes, Route} from "react-router-dom";
 import TableOrders from "./components/orders/TableOrders";
+import AddOrder from "./components/orders/AddOrder";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
               <Container>
                   <Routes>
                       <Route path="/products" element={<TableProduct/>}/>
-                      <Route path="orders" element={<TableOrders/>}/>
+                      <Route path="/orders" element={<TableOrders/>}/>
+                      <Route path="/orders/new" element={<AddOrder />} />
                   </Routes>
               </Container>
           </div>

@@ -2,8 +2,10 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import {useEffect, useState} from "react";
 import {fetchAllOrders} from "../../services/OrderService";
+import {useNavigate} from "react-router-dom";
 
 const TableOrders = () => {
+    const navigate = useNavigate();
     const [orders, setOrders] = useState({});
 
     useEffect(() => {
@@ -16,13 +18,18 @@ const TableOrders = () => {
             setOrders(res.data);
         }
     }
+
+    const handleAddNewOrder = () => {
+        navigate('/orders/new');
+    };
+
     console.log(orders);
     return (
         <>
             <div className='my-3 add-new d-sm-flex'>
                 <span><b>List Orders:</b></span>
                 <div className='group-btns'>
-                    <Button variant="success">
+                    <Button variant="success" onClick={handleAddNewOrder}>
                         Add new Order
                     </Button>
                 </div>
